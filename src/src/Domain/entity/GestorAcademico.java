@@ -1,7 +1,7 @@
 package Domain.entity;
 
 import Domain.dao.crud.CursoNoEncontradoException;
-import Domain.dao.crud.ServiciosAcademicosI;
+import Domain.dao.Crud.ServiciosAcademicosI;
 
 import java.util.ArrayList;
 import java.util.HashMap;

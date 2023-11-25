@@ -1,5 +1,4 @@
-package Domain.dao.crud;
-
+package Domain.dao.Crud;
 import Domain.entity.Curso;
 import Domain.entity.Estudiante;
 import Domain.entity.EstudianteNoInscritoEnCursoException;

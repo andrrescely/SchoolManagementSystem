@@ -14,7 +14,7 @@ public class Main {
 
 
         // Aqui se Instancia los estudiantes
-        Estudiante estudiante1 = new Estudiante(1, "Andres", "Cely", LocalDate.of(1994, 4, 17), Estado.MATRICULADO);
+        Estudiante estudiante1 = new Estudiante(1, "Andres", "Cely", LocalDate.of(1994, 4, 17), Estado.MATRICULADO );
         Estudiante estudiante2 = new Estudiante(2, "Carolina", "Gomez", LocalDate.of(1998, 8, 7), Estado.MATRICULADO);
 
         // Aqui se Instancia los cursos

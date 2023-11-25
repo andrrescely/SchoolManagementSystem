@@ -9,6 +9,7 @@ public class Estudiante {
     private LocalDate fechaDeNacimiento;
     private Estado estado;
 
+
     // Constructor
     public Estudiante(int id, String nombre, String apellido, LocalDate fechaDeNacimiento, Estado estado) {
         this.id = id;
@@ -16,9 +17,11 @@ public class Estudiante {
         this.apellido = apellido;
         this.fechaDeNacimiento = fechaDeNacimiento;
         this.estado = estado;
+
     }
 
     // Getters
+
     public int getId() {
         return id;
     }
@@ -40,6 +43,7 @@ public class Estudiante {
     }
 
     // Setters
+
     public void setId(int id) {
         this.id = id;
     }
@@ -63,11 +67,11 @@ public class Estudiante {
 
     @Override
     public String toString() {
-
-        return "Estudiante{" +
-                "nombre='" + nombre + '\'' +
-                ", correo='" + nombre.toLowerCase() + "@gmail.com" + '\'' +
-                ", estado=" + estado +
-                '}';
+        return "Estudiante: " +
+                "ID = " + id +
+                ", Nombre = '" + nombre + '\'' +
+                ", Apellido = '" + apellido + '\'' +
+                ", Fecha de Nacimiento = " + fechaDeNacimiento +
+                ", Estado = " + estado ;
     }
 }

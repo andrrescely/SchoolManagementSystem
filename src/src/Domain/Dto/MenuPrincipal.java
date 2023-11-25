@@ -1,19 +1,25 @@
 package Domain.Dto;
-
 import Domain.entity.Curso;
 import Domain.entity.Estado;
 import Domain.entity.Estudiante;
-import java.util.List;
-import java.util.Scanner;
+
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.*;
 
 public class MenuPrincipal {
     private List<Estudiante> listaEstudiantes;
-    private List<Curso> listaCursos;
+    private Map<Integer, Curso> cursosMap;
 
     public MenuPrincipal(List<Estudiante> listaEstudiantes, List<Curso> listaCursos) {
         this.listaEstudiantes = listaEstudiantes;
-        this.listaCursos = listaCursos;
+        this.cursosMap = new HashMap<>();
+        //this.cursosMap = cursosMap;
+
+        // Agregar cursos al HashMap
+        for (Curso curso : listaCursos) {
+            cursosMap.put(curso.getId(), curso);
+        }
     }
 
     public void iniciarMenu() {
@@ -28,17 +34,17 @@ public class MenuPrincipal {
             System.out.println("5. Salir");
 
             int opcion = scanner.nextInt();
-            scanner.nextLine();  // Consumir la nueva línea después del número
+            scanner.nextLine();
 
             switch (opcion) {
                 case 1:
-                    agregarEstudiante();
+                    agregarEstudiante(listaEstudiantes);
                     break;
                 case 2:
                     consultarEstudiante();
                     break;
                 case 3:
-                    agregarCurso();
+                    agregarCurso(cursosMap);
                     break;
                 case 4:
                     consultarCurso();
@@ -54,20 +60,40 @@ public class MenuPrincipal {
         }
     }
 
-    private void agregarEstudiante() {
+
+
+
+
+    private void agregarEstudiante(List<Estudiante> listaEstudiantes) {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Ingrese la información del estudiante:");
         System.out.print("ID: ");
         int estudianteId = scanner.nextInt();
         scanner.nextLine();
+
+        // Verificar si el estudiante ya existe
+        Estudiante estudianteExistente = buscarEstudiantePorId(estudianteId, listaEstudiantes);
+        if (estudianteExistente != null) {
+            System.out.println("Error: El estudiante con ID " + estudianteId + " ya existe.");
+            return;  // Salir del método si el estudiante ya existe
+        }
+
         System.out.print("Nombre: ");
         String estudianteNombre = scanner.nextLine();
         System.out.print("Apellido: ");
         String estudianteApellido = scanner.nextLine();
-        System.out.print("Fecha de Nacimiento (YYYY-MM-DD): ");
-        String fechaNacimientoString = scanner.nextLine();
-        LocalDate estudianteFechaNacimiento = LocalDate.parse(fechaNacimientoString);
+
+        // Bloque try-catch para manejar la conversión de la fecha
+        LocalDate estudianteFechaNacimiento = null;
+        try {
+            System.out.print("Fecha de Nacimiento (YYYY-MM-DD): ");
+            String fechaNacimientoString = scanner.nextLine();
+            estudianteFechaNacimiento = LocalDate.parse(fechaNacimientoString);
+        } catch (DateTimeParseException e) {
+            System.out.println("Error: Formato de fecha incorrecto. Inténtelo de nuevo.");
+            return;  // Salir del método en caso de error
+        }
 
         Estado estudianteEstado = seleccionarEstado();
 
@@ -78,14 +104,14 @@ public class MenuPrincipal {
         System.out.println("Estudiante creado: " + nuevoEstudiante);
     }
 
+
     private void consultarEstudiante() {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Ingrese el ID del estudiante a consultar: ");
         int estudianteId = scanner.nextInt();
+        Estudiante estudianteConsultado = buscarEstudiantePorId(estudianteId, listaEstudiantes);
 
-        // Lógica para buscar el estudiante en la lista
-        Estudiante estudianteConsultado = buscarEstudiantePorId(estudianteId);
 
         if (estudianteConsultado != null) {
             System.out.println("Estudiante encontrado:\n" + estudianteConsultado);
@@ -94,29 +120,49 @@ public class MenuPrincipal {
         }
     }
 
-    private void agregarCurso() {
+    private void agregarCurso(Map<Integer, Curso> cursosMap) {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Ingrese la información del curso:");
         System.out.print("ID: ");
         int cursoId = scanner.nextInt();
         scanner.nextLine();
+
+        // Verificar si el curso ya existe
+        Curso cursoExistente = buscarCursoPorId(cursoId, cursosMap);
+        if (cursoExistente != null) {
+            System.out.println("Error: El curso con ID " + cursoId + " ya existe.");
+            return;  // Salir del método si el curso ya existe
+        }
+
         System.out.print("Nombre: ");
         String cursoNombre = scanner.nextLine();
         System.out.print("Descripción: ");
         String cursoDescripcion = scanner.nextLine();
-        System.out.print("Número de Créditos: ");
-        int cursoCreditos = scanner.nextInt();
-        scanner.nextLine();
+
+        int cursoCreditos;
+        // Bloque try-catch para manejar la entrada de créditos
+        try {
+            System.out.print("Número de Créditos: ");
+            cursoCreditos = scanner.nextInt();
+            scanner.nextLine();
+        } catch (InputMismatchException e) {
+            System.out.println("Error: Debes ingresar un número válido para los créditos. Inténtelo de nuevo.");
+            scanner.nextLine();  // Limpiar el buffer del scanner
+            return;  // Salir del método en caso de error
+        }
+
         System.out.print("Versión: ");
         String cursoVersion = scanner.nextLine();
 
         Curso nuevoCurso = new Curso(cursoId, cursoNombre, cursoDescripcion, cursoCreditos, cursoVersion);
 
-        listaCursos.add(nuevoCurso);
+        cursosMap.put(cursoId, nuevoCurso);
+
 
         System.out.println("Curso creado: " + nuevoCurso);
     }
+
 
     private void consultarCurso() {
         Scanner scanner = new Scanner(System.in);
@@ -124,8 +170,8 @@ public class MenuPrincipal {
         System.out.print("Ingrese el ID del curso a consultar: ");
         int cursoId = scanner.nextInt();
 
-        // Lógica para buscar el curso en la lista
-        Curso cursoConsultado = buscarCursoPorId(cursoId);
+        // Lógica para buscar el curso en el HashMap
+        Curso cursoConsultado = cursosMap.get(cursoId);
 
         if (cursoConsultado != null) {
             System.out.println("Curso encontrado:\n" + cursoConsultado);
@@ -162,21 +208,19 @@ public class MenuPrincipal {
         return Estado.values()[numero - 1];
     }
 
-    private Estudiante buscarEstudiantePorId(int id) {
+    private Estudiante buscarEstudiantePorId(int estudianteId, List<Estudiante> listaEstudiantes) {
         for (Estudiante estudiante : listaEstudiantes) {
-            if (estudiante.getId() == id) {
+            if (estudiante.getId() == estudianteId) {
                 return estudiante;
             }
         }
         return null;
     }
 
-    private Curso buscarCursoPorId(int id) {
-        for (Curso curso : listaCursos) {
-            if (curso.getId() == id) {
-                return curso;
-            }
-        }
-        return null;
+    private Curso buscarCursoPorId(int id, Map<Integer, Curso> cursosMap) {
+        return cursosMap.get(id);
     }
+
+
+
 }
