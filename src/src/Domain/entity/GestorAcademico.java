@@ -1,15 +1,13 @@
 package Domain.entity;
-
 import Domain.dao.crud.CursoNoEncontradoException;
 import Domain.dao.Crud.ServiciosAcademicosI;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 
-//public class GestorAcademico {
+
 
 
 public  class GestorAcademico implements ServiciosAcademicosI {
@@ -45,6 +43,8 @@ public  class GestorAcademico implements ServiciosAcademicosI {
     }
 
     // Métodos para estudiantes
+
+
     public void agregarEstudiante(Estudiante estudiante) {
         estudiantes.add(estudiante);
     }
@@ -53,7 +53,7 @@ public  class GestorAcademico implements ServiciosAcademicosI {
         return estudiantes;
     }
 
-    // Métodos para gestionar cursos
+
     public void agregarCurso(Curso curso) {
         cursos.add(curso);
         inscripciones.put(curso, new ArrayList<>());
@@ -63,7 +63,7 @@ public  class GestorAcademico implements ServiciosAcademicosI {
         return cursos;
     }
 
-    // Métodos para inscripciones
+
     public void inscribirEstudianteEnCurso(Estudiante estudiante, Curso curso) throws EstudianteYaInscritoException {
         if (!inscripciones.containsKey(curso)) {
             inscripciones.put(curso, new ArrayList<>());

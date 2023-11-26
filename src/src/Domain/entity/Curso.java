@@ -4,21 +4,23 @@ public class Curso {
     private int id;
     private String nombre;
     private String descripcion;
-    private int numeroCreditos;
-    private String version;
     private int creditos;
+    private String version;
+
 
     // Constructor
-    public Curso(int id, String nombre, String descripcion, int numeroCreditos, String version) {
+    public Curso(int id, String nombre, String descripcion, int creditos, String version) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.numeroCreditos = numeroCreditos;
-        this.version = version;
         this.creditos = creditos;
+        this.version = version;
     }
 
     // Getters
+
+
+
     public int getId() {
         return id;
     }
@@ -34,9 +36,6 @@ public class Curso {
         return descripcion;
     }
 
-    public int getNumeroCreditos() {
-        return numeroCreditos;
-    }
 
     public String getVersion() {
         return version;
@@ -51,13 +50,15 @@ public class Curso {
         this.nombre = nombre;
     }
 
+    public void setCreditos(int creditos) {
+        this.creditos = creditos;
+    }
+
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
 
-    public void setNumeroCreditos(int numeroCreditos) {
-        this.numeroCreditos = numeroCreditos;
-    }
+
 
     public void setVersion(String version) {
         this.version = version;

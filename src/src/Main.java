@@ -15,17 +15,22 @@ public class Main {
 
         // Aqui se Instancia los estudiantes
         Estudiante estudiante1 = new Estudiante(1, "Andres", "Cely", LocalDate.of(1994, 4, 17), Estado.MATRICULADO );
-        Estudiante estudiante2 = new Estudiante(2, "Carolina", "Gomez", LocalDate.of(1998, 8, 7), Estado.MATRICULADO);
+        Estudiante estudiante2 = new Estudiante(2, "Carolina", "Gomez", LocalDate.of(1998, 8, 7), Estado.GRADUADO);
+        Estudiante estudiante3 = new Estudiante(3, "Carolina", "Gomez", LocalDate.of(1998, 8, 7), Estado.GRADUADO);
+
 
         // Aqui se Instancia los cursos
         Curso curso1 = new Curso(101, "Matemáticas", "Curso de matemáticas avanzadas", 4, "1.0");
         Curso curso2 = new Curso(102, "Artes", "Curso de artes avanzado", 3, "1.5");
+        Curso curso3 = new Curso(103, "fISICA", "Curso de fisica", 12, "3.0");
 
         // Aqui se agrega estudiantes y cursos a las listas
         listaEstudiantes.add(estudiante1);
         listaEstudiantes.add(estudiante2);
+        listaEstudiantes.add(estudiante3);
         listaCursos.add(curso1);
         listaCursos.add(curso2);
+        listaCursos.add(curso3);
 
 
 
